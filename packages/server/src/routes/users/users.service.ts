@@ -1,4 +1,15 @@
 import { Injectable } from '@nestjs/common'
-
+import { ReturnModelType } from '@typegoose/typegoose'
+import { UserModel } from '@yumi/db'
+import { InjectModel } from 'nestjs-typegoose'
 @Injectable()
-export class UsersService {}
+export class UsersService {
+  constructor(
+    @InjectModel(UserModel)
+    private readonly model: ReturnModelType<typeof UserModel>,
+  ) {}
+
+  async getUser() {
+    return await this.model.findOne({})
+  }
+}

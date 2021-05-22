@@ -1,5 +1,6 @@
-import { Controller, Get } from '@nestjs/common'
+import { Body, Controller, Get, Post } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
+import { UserRegisterDto } from './user.dto'
 import { UsersService } from './users.service'
 
 @Controller('users')
@@ -9,8 +10,11 @@ export class UsersController {
 
   @Get()
   async getUser() {
-    return {
-      username: 'foo',
-    }
+    return await this.userService.getUser()
+  }
+
+  @Post()
+  async createUser(@Body() body: UserRegisterDto) {
+    return 'OK'
   }
 }

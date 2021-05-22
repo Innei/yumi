@@ -20,3 +20,5 @@ const models = TypegooseModule.forFeature([UserModel])
   exports: [models],
 })
 export class DbModule {}
+
+export { UserModel }
