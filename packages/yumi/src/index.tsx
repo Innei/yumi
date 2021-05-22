@@ -1,7 +1,5 @@
-import { FC } from 'react'
 import { render } from 'react-dom'
-
-const App: FC = () => {
+const App = () => {
   return <p>Hello!</p>
 }
 

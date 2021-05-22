@@ -1,5 +1,5 @@
 {
-  "name": "@yumi/web",
+  "name": "@yumi/yumi",
   "version": "1.0.0",
   "scripts": {
     "start": "vite",
