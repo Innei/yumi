@@ -2,6 +2,9 @@
   <div>
     <router-link to="/">Home</router-link>|
     <router-link to="/page">Page</router-link>|
+    <p>
+      <button @click="count++">+1</button>
+    </p>
     <router-view v-slot="{ Component }">
       <Suspense>
         <component :is="Component" />
@@ -11,9 +14,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, provide, ref } from 'vue'
+import { useProvider } from './hooks/use-deps-injection'
+import { store } from './store'
+export function foo() {
+  const count = ref(1)
+  return { count }
+}
+export default defineComponent({
+  setup() {
+    // provide('store', store)
 
-export default defineComponent({})
+    const d = useProvider(foo)
+    return {
+      count: d.count,
+    }
+  },
+})
 </script>
 
 <style>
