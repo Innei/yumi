@@ -10,7 +10,7 @@
 module.exports = {
   mode: 'jit',
   purge: {
-    content: ['./index.html', './src/**/*.{svelte,js,ts,jsx,tsx}'],
+    content: ['./index.html', './src/**/*.{svelte,js,ts,jsx,tsx,vue}'],
   },
   darkMode: true,
   theme: {

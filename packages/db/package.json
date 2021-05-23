@@ -2,11 +2,14 @@
   "name": "@yumi/db",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "index.js",
+  "module": "dist/index.js",
+  "type": "module",
   "files": [
     "dist"
   ],
   "scripts": {
+    "prepare": "tsc",
     "build": "tsc",
     "dev": "tsc -w"
   },
