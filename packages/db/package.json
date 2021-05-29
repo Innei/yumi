@@ -2,15 +2,14 @@
   "name": "@yumi/db",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "module": "dist/index.js",
-  "type": "module",
   "files": [
     "dist"
   ],
   "scripts": {
     "prepare": "tsc",
-    "build": "tsc",
+    "build": "rimraf dist && tsc",
     "dev": "tsc -w"
   },
   "author": "Innei",

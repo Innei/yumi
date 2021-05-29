@@ -1,9 +1,32 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "apps/yumi-server/src",
   "compilerOptions": {
     "plugins": [
       "@nestjs/swagger/plugin"
-    ]
+    ],
+    "tsConfigPath": "apps/yumi-server/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/yumi-server",
+  "projects": {
+    "yumi-server": {
+      "type": "application",
+      "root": "apps/yumi-server",
+      "entryFile": "main",
+      "sourceRoot": "apps/yumi-server/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/yumi-server/tsconfig.app.json"
+      }
+    },
+    "micro": {
+      "type": "application",
+      "root": "apps/micro",
+      "entryFile": "main",
+      "sourceRoot": "apps/micro/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/micro/tsconfig.app.json"
+      }
+    }
   }
 }
