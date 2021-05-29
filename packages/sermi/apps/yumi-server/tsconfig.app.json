@@ -4,11 +4,6 @@
     "declaration": false,
     "outDir": "../../dist/apps/yumi-server",
     "baseUrl": "./src",
-    "paths": {
-      "db/*": [
-        "@yumi/db/*"
-      ]
-    }
   },
   "include": [
     "src/**/*"
