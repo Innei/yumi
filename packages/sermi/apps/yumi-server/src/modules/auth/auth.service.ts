@@ -17,4 +17,13 @@ export class AuthService {
 
     return user && user.authCode === payload.authCode ? user : null
   }
+  async signToken(_id: string) {
+    const { authCode } = await this.userModel.findById(_id).select('authCode')
+    const payload = {
+      _id,
+      authCode,
+    }
+
+    return this.jwtService.sign(payload)
+  }
 }

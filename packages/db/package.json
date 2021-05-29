@@ -21,7 +21,8 @@
     "bcrypt": "^5.0.1",
     "mongoose": "5.10.18",
     "mongoose-lean-virtuals": "0.8.0",
-    "nestjs-typegoose": "^7.1.38"
+    "nestjs-typegoose": "^7.1.38",
+    "@yumi/utils": "workspace:*"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0"
