@@ -22,7 +22,10 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
   }
 
   async validate(username: string, password: string) {
-    const user = await this.userModel.findOne({ username }).select('+password')
+    const user = await this.userModel
+      .findOne({ username })
+      .select('+password')
+      .lean({ getters: true })
     if (!user) {
       await sleep(3000)
       throw new ForbiddenException('用户名不正确')
@@ -31,7 +34,7 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
       await sleep(3000)
       throw new ForbiddenException('密码不正确')
     }
-    // console.log(user)
+
     return user
   }
 }

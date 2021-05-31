@@ -3,7 +3,17 @@
   "sourceRoot": "apps/yumi-server/src",
   "compilerOptions": {
     "plugins": [
-      "@nestjs/swagger/plugin"
+      {
+        "name": "@nestjs/swagger",
+        "options": {
+          "classValidatorShim": true,
+          "introspectComments": true,
+          "dtoFileNameSuffix": [
+            ".dto.ts",
+            ".model.ts"
+          ]
+        }
+      }
     ],
     "tsConfigPath": "apps/yumi-server/tsconfig.app.json"
   },

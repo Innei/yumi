@@ -1,8 +1,12 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { UserModel } from '@lib/db'
 import {
+  IsAlphanumeric,
   IsEmail,
   IsNotEmpty,
+  IsNumberString,
+  IsOptional,
   IsString,
+  IsUrl,
   Length,
   MaxLength,
   MinLength,
@@ -15,21 +19,35 @@ export class LoginDto {
   @IsString()
   password: string
 }
-
-export class RegisterDto {
+// TODO 媒体类型用 URL 还是用 Snakeflow
+export class RegisterDto implements Partial<UserModel> {
   @IsString()
-  @MaxLength(20)
-  @IsNotEmpty()
+  @MaxLength(20, { message: '用户名长度不能超过 20 位' })
+  @IsNotEmpty({ message: '用户名不能为空' })
+  @IsAlphanumeric(undefined, { message: '用户名只能是字母数字' })
   username: string
   @IsString()
-  @IsNotEmpty()
-  @MinLength(6)
+  @IsNotEmpty({ message: '密码不能为空' })
+  @MinLength(6, { message: '密码至少 6 位' })
   password: string
-  @IsEmail()
+  @IsEmail(undefined, { message: '错误的邮箱?' })
   email: string
-  @IsString()
-  @Length(4)
+
+  @Length(4, 4, { message: 'code error' })
+  @IsNumberString(undefined, { message: 'code error' })
   code: string
+
+  @IsUrl()
+  @IsOptional()
+  banner?: string
+
+  @IsUrl()
+  @IsOptional()
+  avatar?: string
+
+  @IsString()
+  @IsOptional()
+  introduce?: string
 }
 
 export class VerificationDto {

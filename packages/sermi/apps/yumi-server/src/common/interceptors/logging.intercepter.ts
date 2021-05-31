@@ -33,7 +33,7 @@ export class LoggingInterceptor implements NestInterceptor {
     }
     const request = context.switchToHttp().getRequest()
     const content = request.method + ' -> ' + request.url
-    this.logger.debug('+++ 收到请求：' + content)
+    Logger.debug('+++ 收到请求：' + content, LoggingInterceptor.name, false)
 
     return call$.pipe(tap(() => this.logger.debug('--- 响应请求：' + content)))
   }

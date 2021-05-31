@@ -1,6 +1,9 @@
 import { FastifyRequest } from 'fastify'
 import { IncomingMessage } from 'http'
+import { randomBytes } from 'crypto'
+import { promisify } from 'util'
 
+export * from './snowflake'
 export const __DEV__ = process.env.NODE_ENV === 'development'
 
 export const getIp = (request: FastifyRequest | IncomingMessage) => {
@@ -16,4 +19,10 @@ export const getIp = (request: FastifyRequest | IncomingMessage) => {
     ip = ip.split(',')[0]
   }
   return ip
+}
+
+export const randomString = async (len = 6) => {
+  const random = promisify(randomBytes)
+  const buffer = await random(48)
+  return buffer.toString('hex').slice(0, len)
 }

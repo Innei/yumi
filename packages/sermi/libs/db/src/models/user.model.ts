@@ -1,17 +1,27 @@
-import { BaseModel } from './base.model'
-import { prop } from '@typegoose/typegoose'
+import { AutoIncrementID } from '@typegoose/auto-increment'
+import { index, modelOptions, plugin, prop } from '@typegoose/typegoose'
 import { hashSync } from 'bcrypt'
-
+import { BaseModel } from './base.model'
 export enum UserRole {
   User,
   Admin,
+  Root,
 }
-
+@plugin(AutoIncrementID, {
+  field: 'uid',
+  startAt: 10000,
+})
+@modelOptions({
+  options: { customName: 'User' },
+})
+@index([{ uid: 1 }])
 export class UserModel extends BaseModel {
+  @prop({ unique: true })
+  uid?: number
   @prop({ required: true, unique: true, maxlength: 20 })
   username: string
   @prop()
-  name: string
+  name?: string
 
   @prop({
     required: true,
@@ -38,8 +48,8 @@ export class UserModel extends BaseModel {
   @prop({ default: UserRole.User })
   role: UserRole
 
-  @prop({ select: true, required: true })
-  auth_code!: string
+  @prop({ select: false, required: true })
+  auth_code: string
 
   @prop()
   last_login_time?: Date

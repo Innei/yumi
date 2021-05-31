@@ -1,3 +1,5 @@
+import { JwtAuthGuard } from '@app/server/common/guards/auth.guard'
+import { UserModel } from '@lib/db/models/user.model'
 import {
   Body,
   Controller,
@@ -5,16 +7,13 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common'
-import { AuthService } from './auth.service'
-import { ApiOperation } from '@nestjs/swagger'
 import { AuthGuard } from '@nestjs/passport'
-import { CurrentUser } from '../../common/decorators/user.decorator'
+import { ApiOperation } from '@nestjs/swagger'
+import { omit } from 'lodash'
 import { IpLocation, IpRecord } from '../../common/decorators/ip.decorator'
+import { CurrentUser } from '../../common/decorators/user.decorator'
 import { LoginDto, RegisterDto, VerificationDto } from './auth.dto'
-import { UserModel } from '@lib/db/models/user.model'
-import { DocumentType } from '@typegoose/typegoose'
-
-export type UserDocument = DocumentType<UserModel>
+import { AuthService } from './auth.service'
 
 @Controller('auth')
 export class AuthController {
@@ -24,31 +23,48 @@ export class AuthController {
   @ApiOperation({ summary: '登录' })
   @UseGuards(AuthGuard('local'))
   async login(
+    // 不用也要加上, 数据验证
     @Body() dto: LoginDto,
-    @CurrentUser() user: UserDocument,
+    @CurrentUser() user: UserModel,
     @IpLocation() ipLocation: IpRecord,
-  ) {
-    const { name, username, email, created_at } = user
+  ): Promise<
+    Omit<UserModel, 'password' | 'auth_code'> & {
+      token: string
+      expires_in: number
+    }
+  > {
+    const omitted = omit(user, ['password', 'auth_code'])
+    await this.authService.updateUserLastMeta(user.id, {
+      last_login_ip: ipLocation.ip,
+    })
 
     return {
       token: await this.authService.signToken(user.id),
-      name,
-      username,
-      email,
-      created_at,
-      expiresIn: 7,
+      ...omitted,
+      expires_in: 7,
     }
   }
 
   @Post('register')
   @ApiOperation({ summary: '注册' })
-  async register(@Body() body: RegisterDto) {
-    return ''
+  async register(@Body() body: RegisterDto): Promise<Partial<UserModel>> {
+    const res = await this.authService.register(body)
+    const payload = res.toObject()
+    delete payload.password
+    delete payload.auth_code
+    return payload
   }
 
   @Post('verification')
   @ApiOperation({ summary: 'gen code' })
   async sendVerificationCode(@Body() body: VerificationDto) {
     throw new InternalServerErrorException()
+  }
+
+  // 检测 Token 有效性
+  @Post('check')
+  @UseGuards(JwtAuthGuard)
+  checkToken(): string {
+    return 'OK'
   }
 }
