@@ -1,16 +1,22 @@
 import { DbModule } from '@lib/db'
 import { UserModel } from '@lib/db/models/user.model'
-import { UnprocessableEntityException } from '@nestjs/common'
+import { INestApplication, UnprocessableEntityException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { getModelForClass, ReturnModelType } from '@typegoose/typegoose'
+import { isDefined } from 'class-validator'
+import { pick } from 'lodash'
+import * as request from 'supertest'
 import { AuthController } from './auth.controller'
 import { AuthModule } from './auth.module'
 import { AuthService } from './auth.service'
 
 describe('AuthController', () => {
+  const route = '/auth'
+
   let controller: AuthController
   let service: AuthService
   let userModel: ReturnModelType<typeof UserModel>
+  let app: INestApplication
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -20,6 +26,8 @@ describe('AuthController', () => {
     controller = module.get<AuthController>(AuthController)
     service = module.get<AuthService>(AuthService)
 
+    app = module.createNestApplication()
+    await app.init()
     userModel = getModelForClass(UserModel)
   })
 
@@ -68,7 +76,31 @@ describe('AuthController', () => {
     }
   })
 
+  it('login with register user', async () => {
+    const data = pick(model, ['username', 'password'])
+
+    return request(app.getHttpServer())
+      .post(route + '/login')
+      .send(data)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .expect((res) => {
+        try {
+          const { username, email, token } = res.body
+          return (
+            isDefined(token) &&
+            username === model.email &&
+            email === model.email
+          )
+        } catch {
+          return false
+        }
+      })
+      .expect(201)
+  })
+
   afterAll(async () => {
     await userModel.deleteMany({})
+    await app.close()
   })
 })
