@@ -5,7 +5,7 @@ import { promisify } from 'util'
 
 export * from './snowflake'
 export const __DEV__ = process.env.NODE_ENV === 'development'
-
+export const __TEST__ = ['true', 'TRUE', '1'].includes(process.env.TEST)
 export const getIp = (request: FastifyRequest | IncomingMessage) => {
   const _ = request as any
   // @ts-ignore

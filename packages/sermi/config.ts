@@ -1,6 +1,6 @@
 import { argv } from 'yargs'
 
-export const ApplicationConfig = {
+export const appConfig = {
   jwtSecret: 'asdadsfcvxgq2adasdxzcz',
   mongo: {
     uri: `mongodb://127.0.0.1:${argv.dbport || '27017'}/yumi`,

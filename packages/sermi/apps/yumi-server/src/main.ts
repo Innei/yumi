@@ -5,9 +5,8 @@ import { __DEV__ } from './utils'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { Logger, ValidationPipe } from '@nestjs/common'
 import { AllExceptionsFilter } from '@app/server/common/filters/any-exception.filter'
-import { CamelCasePipe } from '@app/server/common/pipes/camelCase.pipe'
 import { defaultValidatePipeOptions } from '@app/server/common/constants'
-import { LoggingInterceptor } from '@app/server/common/interceptors/logging.intercepter'
+import { LoggingInterceptor } from '@app/server/common/interceptors/logging.interceptor'
 
 const PORT = +process.env.PORT | 0 || 6161
 const APIVersion = 1
@@ -16,10 +15,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, fastifyAdpter)
 
   app.enableCors({ origin: true })
-  app.useGlobalPipes(
-    new CamelCasePipe(),
-    new ValidationPipe(defaultValidatePipeOptions),
-  )
+  app.useGlobalPipes(new ValidationPipe(defaultValidatePipeOptions))
   app.useGlobalFilters(new AllExceptionsFilter())
   app.useGlobalInterceptors(new LoggingInterceptor())
 

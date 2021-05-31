@@ -6,9 +6,9 @@ const uid = new UniqueID({
 
 export const snowflake = {
   gen() {
-    return uid.getUniqueID()
+    return uid.getUniqueID() as bigint
   },
   async genAsync() {
-    return uid.asyncGetUniqueID()
+    return uid.asyncGetUniqueID() as Promise<bigint>
   },
 }

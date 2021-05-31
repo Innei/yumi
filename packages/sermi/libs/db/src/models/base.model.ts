@@ -5,17 +5,17 @@ import {
   plugin,
   prop,
 } from '@typegoose/typegoose'
-import * as mongooseLeanVirtuals from 'mongoose-lean-virtuals'
-import * as mongooseLeanGetter from 'mongoose-lean-getters'
 import { IModelOptions } from '@typegoose/typegoose/lib/types'
+import * as mongooseLeanGetter from 'mongoose-lean-getters'
+import * as mongooseLeanVirtuals from 'mongoose-lean-virtuals'
+import { transformer } from '../utils/transform'
+import { toJSON } from '../utils'
 
-import { Long } from 'mongodb'
 import longify = require('mongoose-long')
-import toJSON from '../utils'
 // @ts-ignore
 longify(mongoose)
 
-export type Snowflake = string | bigint
+export type Snowflake = bigint
 
 const defaultSerializationOption: mongoose.DocumentToObjectOptions = {
   getters: true,
@@ -52,9 +52,7 @@ export abstract class BaseModel {
   @prop({
     type: mongoose.mongo.Long,
     required: true,
-    // typegoose will gen a object without _id for query
-    get: (val?: Long) => val && val.toString(),
-    set: (val: Snowflake) => Long.fromString(val.toString()),
+    ...transformer.nullableSnowflake,
   })
   _id: Snowflake
 

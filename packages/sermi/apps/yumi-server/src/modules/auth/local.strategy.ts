@@ -25,7 +25,7 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
     const user = await this.userModel
       .findOne({ username })
       .select('+password')
-      .lean({ getters: true })
+      .lean({ getters: true, virtuals: true })
     if (!user) {
       await sleep(3000)
       throw new ForbiddenException('用户名不正确')
