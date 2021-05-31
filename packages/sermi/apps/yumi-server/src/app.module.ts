@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
-import { DbModule } from '@yumi/db'
 import { RoutesModule } from './modules/index.module'
 
 @Module({
-  imports: [DbModule, RoutesModule],
+  imports: [RoutesModule],
   controllers: [AppController],
   providers: [AppService],
 })

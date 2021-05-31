@@ -28,7 +28,7 @@ export class UserModel extends BaseModel {
   @prop()
   email: string
   @prop()
-  emailVerified: boolean
+  email_verified: boolean
   @prop()
   avatar?: string
   @prop()
@@ -39,19 +39,19 @@ export class UserModel extends BaseModel {
   role: UserRole
 
   @prop({ select: true, required: true })
-  authCode!: string
+  auth_code!: string
 
   @prop()
-  lastLoginTime?: Date
+  last_login_time?: Date
 
   @prop({ select: false })
-  lastLoginIp?: string
+  last_login_ip?: string
 
   @prop()
-  createdAt: Date
+  created_at: Date
 
   @prop()
-  updatedAt: Date | null
+  updated_at: Date | null
 
   @prop()
   banned: boolean

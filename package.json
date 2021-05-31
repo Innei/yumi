@@ -1,12 +1,17 @@
 {
   "name": "yumi",
   "version": "0.1.0",
+  "private": true,
   "description": "TODO",
   "scripts": {
-    "format": "prettier --write \"packages/**/*.{ts,tsx}\" "
+    "format": "prettier --write \"packages/**/*.{ts,tsx}\" ",
+    "build": "node scripts/build"
   },
   "author": "Innei",
   "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ],
   "dependencies": {
     "class-transformer": "0.4.0",
     "class-validator": "0.13.1",

@@ -7,6 +7,7 @@
  * @Coding with Love
  */
 
+import { getIp } from '@app/server/utils'
 import {
   ArgumentsHost,
   Catch,
@@ -16,7 +17,6 @@ import {
   Logger,
 } from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { getIp } from 'utils'
 
 type myError = {
   readonly status: number
@@ -55,12 +55,10 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     response.status(status).send({
       ok: 0,
-      statusCode: status,
       message:
         (exception as any)?.response?.message ||
         (exception as any)?.message ||
         '未知错误',
-      // timestamp: new Date().toISOString(),
     })
   }
 }

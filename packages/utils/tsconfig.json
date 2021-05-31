@@ -1,9 +1,0 @@
-{
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "target": "ES2017",
-    "module": "CommonJS",
-    "outDir": "./dist"
-  }
-}

@@ -1,4 +1,4 @@
-import { UserModel } from '@yumi/db'
+import { UserModel } from '@lib/db/models/user.model'
 import { ForbiddenException } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
 import { ReturnModelType } from '@typegoose/typegoose'

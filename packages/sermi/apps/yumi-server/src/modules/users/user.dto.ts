@@ -1,4 +1,4 @@
-import { UserModel } from '@yumi/db'
+import { UserModel } from '@lib/db'
 import { IsEmail, IsString, IsUrl, MaxLength, MinLength } from 'class-validator'
 
 export class UserLoginDto {

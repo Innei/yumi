@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
-import { DbModule } from '@yumi/db'
+import { DbModule } from '@lib/db'
 import { LocalStrategy } from './local.strategy'
 import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'

@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common'
-import { DbModule } from '@yumi/db/dist'
+import { DbModule } from '@lib/db'
 import { AuthModule } from './auth/auth.module'
 import { UsersModule } from './users/users.module'
 
@@ -7,6 +7,6 @@ import { UsersModule } from './users/users.module'
   imports: [DbModule, UsersModule, AuthModule],
   providers: [],
   controllers: [],
-  exports: [DbModule, UsersModule, AuthModule],
+  exports: [UsersModule, AuthModule],
 })
 export class RoutesModule {}

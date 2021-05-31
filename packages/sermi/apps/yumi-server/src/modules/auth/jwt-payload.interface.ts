@@ -1,4 +1,4 @@
 export interface JwtPayload {
-  _id: string
-  authCode: string
+  id: string
+  auth_code: string
 }

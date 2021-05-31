@@ -19,13 +19,13 @@
         "tsConfigPath": "apps/yumi-server/tsconfig.app.json"
       }
     },
-    "micro": {
-      "type": "application",
-      "root": "apps/micro",
-      "entryFile": "main",
-      "sourceRoot": "apps/micro/src",
+    "db": {
+      "type": "library",
+      "root": "libs/db",
+      "entryFile": "index",
+      "sourceRoot": "libs/db/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/micro/tsconfig.app.json"
+        "tsConfigPath": "libs/db/tsconfig.lib.json"
       }
     }
   }

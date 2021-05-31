@@ -1,13 +1,15 @@
 import { UserModel } from './models/user.model'
 import { TypegooseModule } from 'nestjs-typegoose'
-import { Module } from '@nestjs/common'
+import { Global, Module } from '@nestjs/common'
+import { ApplicationConfig } from 'config'
 const models = TypegooseModule.forFeature([UserModel])
 
+@Global()
 @Module({
   imports: [
     TypegooseModule.forRootAsync({
       useFactory: () => ({
-        uri: (process.env.DB_URL || 'mongodb://localhost') + '/yumi',
+        uri: ApplicationConfig.mongo.uri || 'mongodb://localhost/yumi',
         useCreateIndex: true,
         useFindAndModify: false,
         useNewUrlParser: true,

@@ -11,7 +11,7 @@ import { AuthGuard } from '@nestjs/passport'
 import { CurrentUser } from '../../common/decorators/user.decorator'
 import { IpLocation, IpRecord } from '../../common/decorators/ip.decorator'
 import { LoginDto, RegisterDto, VerificationDto } from './auth.dto'
-import { UserModel } from '@yumi/db'
+import { UserModel } from '@lib/db/models/user.model'
 import { DocumentType } from '@typegoose/typegoose'
 
 export type UserDocument = DocumentType<UserModel>
@@ -28,15 +28,14 @@ export class AuthController {
     @CurrentUser() user: UserDocument,
     @IpLocation() ipLocation: IpRecord,
   ) {
-    const { name, username, created, url, mail } = user
+    const { name, username, email, created_at } = user
 
     return {
-      token: await this.authService.signToken(user._id),
+      token: await this.authService.signToken(user.id),
       name,
       username,
-      created,
-      url,
-      mail,
+      email,
+      created_at,
       expiresIn: 7,
     }
   }

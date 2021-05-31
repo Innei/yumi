@@ -3,7 +3,6 @@
   "compilerOptions": {
     "declaration": false,
     "outDir": "../../dist/apps/yumi-server",
-    "baseUrl": "./src",
   },
   "include": [
     "src/**/*"
@@ -14,4 +13,9 @@
     "test",
     "**/*spec.ts"
   ],
+  "paths": {
+    "@app/server": [
+      "src"
+    ]
+  }
 }
