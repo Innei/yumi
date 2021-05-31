@@ -4,7 +4,7 @@ import { INestApplication, UnprocessableEntityException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { getModelForClass, ReturnModelType } from '@typegoose/typegoose'
 import { isDefined } from 'class-validator'
-import { pick } from 'lodash'
+import { isUndefined, pick } from 'lodash'
 import * as request from 'supertest'
 import { AuthController } from './auth.controller'
 import { AuthModule } from './auth.module'
@@ -86,11 +86,13 @@ describe('AuthController', () => {
       .set('Accept', 'application/json')
       .expect((res) => {
         try {
-          const { username, email, token } = res.body
+          const { username, email, token, auth_code, password } = res.body
           return (
             isDefined(token) &&
             username === model.email &&
-            email === model.email
+            email === model.email &&
+            isUndefined(auth_code) &&
+            isUndefined(password)
           )
         } catch {
           return false
