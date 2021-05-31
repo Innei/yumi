@@ -1,6 +1,6 @@
 import { __TEST__ } from '@app/server/utils'
 import { Global, Module } from '@nestjs/common'
-import { appConfig } from 'config'
+import { appConfig } from 'configs'
 import { TypegooseModule } from 'nestjs-typegoose'
 import { UserModel } from './models/user.model'
 const models = TypegooseModule.forFeature([UserModel])

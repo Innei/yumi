@@ -15,6 +15,6 @@ module.exports = {
     '@lib/db': '<rootDir>/libs/db/src',
     '@app/server/(.*)': '<rootDir>/apps/yumi-server/src/$1',
     '@app/server': '<rootDir>/apps/yumi-server/src',
-    config: '<rootDir>/config.ts',
+    configs: '<rootDir>/configs.ts',
   },
 }
