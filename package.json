@@ -13,6 +13,14 @@
   "workspaces": [
     "packages/*"
   ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": "eslint --cache --fix"
+  },
   "dependencies": {
     "class-transformer": "0.4.0",
     "class-validator": "0.13.1",
@@ -21,6 +29,8 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
+    "@commitlint/cli": "12.1.4",
+    "@commitlint/config-conventional": "12.1.4",
     "@types/jest": "^26.0.23",
     "@types/lodash-es": "^4.17.4",
     "@types/node": "^14.17.0",

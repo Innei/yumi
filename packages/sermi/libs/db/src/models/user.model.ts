@@ -78,6 +78,21 @@ export class UserModel extends BaseModel {
       omits: ['password', 'auth_code', 'banned'].concat(options?.omits),
     })
   }
+
+  serializeForUser(): any {
+    return super.serialize({
+      omits: [
+        'password',
+        'auth_code',
+        'banned',
+        'email',
+        'role',
+        'email_verified',
+        'last_login_ip',
+        'last_login_time',
+      ],
+    })
+  }
 }
 
 export type UserDocument = DocumentType<UserModel>
