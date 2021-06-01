@@ -5183,10 +5183,10 @@ mongoose-long@0.4.0:
   resolved "https://registry.yarnpkg.com/mongoose-long/-/mongoose-long-0.4.0.tgz#cb3697c0e6177f0ae5291c294f5d9231cda0d9b1"
   integrity sha512-9dE/C81Hx8yhf8vwQZfZQugC5pI7Uueua0ji6BTpN32nti/HgU1sMaVSHQl472FCrAstAuc3iia186mlDHlTYA==
 
-mongoose@5.10.18:
-  version "5.10.18"
-  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.10.18.tgz#ec99a8bc524bd0fd2a82b5afd6f1f720f462c45f"
-  integrity sha512-vaLUzBpUxqacoCqP/xXWMg/uVwCDrlc8LvYjDXCf8hdApvX/CXa0HLa7v2ieFaVd5Fgv3W2QXODLoC4Z/abbNw==
+mongoose@5.10.19:
+  version "5.10.19"
+  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.10.19.tgz#a8ca94d63737cc9c002832e1aa7169ef0c156779"
+  integrity sha512-SuJwbhQpfZ6WZFM6H2v0Hv1wQNLDeBDLZwOHR3UnR6IlPLKjuLyEx4OLI0vFQihv+JWJKWqJt+LcRRbRyL9PCg==
   dependencies:
     bson "^1.1.4"
     kareem "2.3.1"
