@@ -28,3 +28,14 @@ export const randomString = async (len = 6) => {
   const buffer = await random(48)
   return buffer.toString('hex').slice(0, len)
 }
+
+export function randomStringUnSafeSync(len = 6) {
+  const result = []
+  const characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  const charactersLength = characters.length
+  for (let i = 0; i < len; i++) {
+    result.push(characters.charAt(Math.floor(Math.random() * charactersLength)))
+  }
+  return result.join('')
+}

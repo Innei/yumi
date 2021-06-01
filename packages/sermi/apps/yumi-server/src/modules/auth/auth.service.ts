@@ -7,6 +7,7 @@ import { JwtPayload } from './jwt-payload.interface'
 import { RegisterDto } from './auth.dto'
 import { randomString, snowflake } from '@app/server/utils'
 import { Snowflake } from '@lib/db/models/base.model'
+import { ITokenResult } from './auth.interface'
 
 @Injectable()
 export class AuthService {

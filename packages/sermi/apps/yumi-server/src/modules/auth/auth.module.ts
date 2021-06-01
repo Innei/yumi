@@ -5,20 +5,22 @@ import { LocalStrategy } from './local.strategy'
 import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
 import { JwtStrategy } from './jwt.strategy'
-
-const jwtModule = JwtModule.registerAsync({
-  useFactory() {
-    return {
-      secret: process.env.SECRET || 'asdhaisouxcjzuoiqdnasjduw',
-      signOptions: {
-        expiresIn: '7d',
-      },
-    }
-  },
-})
+import { APP } from '@app/server/app.config'
 
 @Module({
-  imports: [DbModule, jwtModule],
+  imports: [
+    DbModule,
+    JwtModule.registerAsync({
+      useFactory() {
+        return {
+          secret: APP.jwtSecret || 'asdhaisouxcjzuoiqdnasjduw',
+          signOptions: {
+            expiresIn: '7d',
+          },
+        }
+      },
+    }),
+  ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, LocalStrategy],
   exports: [AuthService],

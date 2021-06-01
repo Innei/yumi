@@ -1,3 +1,5 @@
+import { NeedAuth } from '@app/server/common/decorators/auth.decorator'
+import { HttpProcessor } from '@app/server/common/decorators/http.decorator'
 import { JwtAuthGuard } from '@app/server/common/guards/auth.guard'
 import { UserDocument, UserModel } from '@lib/db/models/user.model'
 import {
@@ -13,6 +15,7 @@ import { ApiOperation } from '@nestjs/swagger'
 import { IpLocation, IpRecord } from '../../common/decorators/ip.decorator'
 import { CurrentUser } from '../../common/decorators/user.decorator'
 import { LoginDto, RegisterDto, VerificationDto } from './auth.dto'
+import { ITokenResult } from './auth.interface'
 import { AuthService } from './auth.service'
 
 @Controller('auth')
@@ -28,12 +31,7 @@ export class AuthController {
     @Body() dto: LoginDto,
     @CurrentUser() user: UserDocument,
     @IpLocation() ipLocation: IpRecord,
-  ): Promise<
-    Omit<UserModel, 'password' | 'auth_code'> & {
-      token: string
-      expires_in: number
-    }
-  > {
+  ): Promise<Omit<UserModel, 'password' | 'auth_code'> & ITokenResult> {
     const omitted = user.serialize() as Omit<
       UserModel,
       'password' | 'auth_code'
@@ -68,8 +66,21 @@ export class AuthController {
 
   // 检测 Token 有效性
   @Post('check')
-  @UseGuards(JwtAuthGuard)
+  @NeedAuth(true)
+  @HttpProcessor.handle('Token 续签')
   checkToken(): string {
     return 'OK'
+  }
+
+  // Token 续期，拿旧 Token 换新 Token
+  @Post('renewal')
+  @NeedAuth(true)
+  @HttpProcessor.handle('Token 续签')
+  async renewalToken(@CurrentUser() user: UserDocument): Promise<ITokenResult> {
+    const id = user.id
+    return {
+      expires_in: 7,
+      token: await this.authService.signToken(id),
+    }
   }
 }

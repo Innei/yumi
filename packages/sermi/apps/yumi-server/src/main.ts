@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core'
+import { NestFactory, Reflector } from '@nestjs/core'
 import { fastifyAdpter } from './adapter/fastify'
 import { AppModule } from './app.module'
 import { __DEV__ } from './utils'
@@ -7,6 +7,7 @@ import { Logger, ValidationPipe } from '@nestjs/common'
 import { AllExceptionsFilter } from '@app/server/common/filters/any-exception.filter'
 import { defaultValidatePipeOptions } from '@app/server/common/constants'
 import { LoggingInterceptor } from '@app/server/common/interceptors/logging.interceptor'
+import { ErrorInterceptor } from './common/interceptors/error.interceptor'
 
 const PORT = +process.env.PORT | 0 || 6161
 const APIVersion = 1
@@ -17,7 +18,11 @@ async function bootstrap() {
   app.enableCors({ origin: true })
   app.useGlobalPipes(new ValidationPipe(defaultValidatePipeOptions))
   app.useGlobalFilters(new AllExceptionsFilter())
-  app.useGlobalInterceptors(new LoggingInterceptor())
+
+  app.useGlobalInterceptors(
+    new LoggingInterceptor(),
+    new ErrorInterceptor(new Reflector()),
+  )
 
   if (__DEV__) {
     const options = new DocumentBuilder()
