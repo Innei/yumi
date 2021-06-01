@@ -17,7 +17,7 @@
   "author": "Innei",
   "license": "MIT",
   "dependencies": {
-    "ky": "0.28.3",
+    "ky": "0.28.5",
     "ky-universal": "0.9.1",
     "lodash-es": "4.17.21",
     "react": "17.0.2",
