@@ -13,7 +13,7 @@ describe('AuthService', () => {
     service = module.get<AuthService>(AuthService)
   })
 
-  it('', () => {
-    expect(true).toBe(true)
+  it('service should be defined', () => {
+    expect(service).toBeDefined()
   })
 })

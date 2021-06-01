@@ -24,24 +24,41 @@ async function build(target) {
   const pkg = require(resolve(dir, './package.json'))
   if (pkg.scripts.test) {
     console.log(chalk.green('start to test ' + target + '...'))
-    const res = await execa('yarn', ['test'], {
+    await execa('yarn', ['workspace', pkg.name, 'test'], {
       cwd: dir,
       encoding: 'utf8',
       stdio: 'inherit',
     })
-
-    console.log(res)
   }
 
   console.log(chalk.green('start to build ' + target + '...'))
-  await execa('yarn', ['build'], { cwd: dir, encoding: 'utf8' })
+  try {
+    await execa('yarn', ['workspace', pkg.name, 'build'], {
+      cwd: dir,
+      encoding: 'utf8',
+    })
+  } catch (e) {
+    console.error(e)
+    process.exit(-1)
+  }
 }
 
+/**
+ *
+ * @param {any} maxConcurrency
+ * @param {any} source
+ * @param {typeof build} iteratorFn
+ * @returns
+ */
 async function runParallel(maxConcurrency, source, iteratorFn) {
   const ret = []
   const executing = []
   for (const item of source) {
-    const p = Promise.resolve().then(() => iteratorFn(item, source))
+    const p = Promise.resolve().then(() =>
+      iteratorFn(item).catch((err) => {
+        throw err
+      }),
+    )
     ret.push(p)
 
     if (maxConcurrency <= source.length) {
@@ -56,7 +73,11 @@ async function runParallel(maxConcurrency, source, iteratorFn) {
 }
 
 async function run() {
-  await buildAll(targets)
+  try {
+    await buildAll(targets)
+  } catch (e) {
+    process.exit(-1)
+  }
 }
 
 run()
