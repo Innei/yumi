@@ -6,7 +6,8 @@
   "scripts": {
     "format": "prettier --write \"packages/**/*.{ts,tsx}\" ",
     "build": "node scripts/build",
-    "lint": "eslint --ext .ts,.tsx packages/*/src/** --fix"
+    "lint": "eslint --ext .ts,.tsx packages/*/src/** --fix",
+    "prepare": "husky install"
   },
   "author": "Innei",
   "license": "MIT",
