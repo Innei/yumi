@@ -23,6 +23,7 @@
     "*.{ts,tsx}": "eslint --cache --fix"
   },
   "dependencies": {
+    "@yarnpkg/pnpify": "^3.0.0-rc.3",
     "class-transformer": "0.4.0",
     "class-validator": "0.13.1",
     "dayjs": "^1.10.5",
@@ -37,10 +38,12 @@
     "@types/node": "^14.17.0",
     "@typescript-eslint/eslint-plugin": "^4.24.0",
     "@typescript-eslint/parser": "^4.24.0",
+    "chalk": "^4.1.1",
     "cross-env": "^7.0.3",
     "eslint": "^7.27.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
+    "execa": "^5.0.1",
     "husky": "^6.0.0",
     "jest": "^26.6.3",
     "lint-staged": "^11.0.0",
@@ -50,6 +53,6 @@
     "ts-loader": "^8.3.0",
     "ts-node": "^9.1.1",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^4.2.4"
+    "typescript": "4.2.4"
   }
 }

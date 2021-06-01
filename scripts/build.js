@@ -30,7 +30,10 @@ async function build(target) {
       stdio: 'inherit',
     })
 
-    console.log(res)
+    if (res.exitCode != 0) {
+      process.exit(-1)
+      return
+    }
   }
 
   console.log(chalk.green('start to build ' + target + '...'))
