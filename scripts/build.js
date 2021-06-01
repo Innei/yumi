@@ -24,11 +24,13 @@ async function build(target) {
   const pkg = require(resolve(dir, './package.json'))
   if (pkg.scripts.test) {
     console.log(chalk.green('start to test ' + target + '...'))
-    await execa('yarn', ['test'], {
+    const res = await execa('yarn', ['test'], {
       cwd: dir,
       encoding: 'utf8',
       stdio: 'inherit',
     })
+
+    console.log(res)
   }
 
   console.log(chalk.green('start to build ' + target + '...'))
