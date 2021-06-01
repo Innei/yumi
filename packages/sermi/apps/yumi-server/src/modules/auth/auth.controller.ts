@@ -1,8 +1,10 @@
 import { JwtAuthGuard } from '@app/server/common/guards/auth.guard'
-import { UserModel } from '@lib/db/models/user.model'
+import { UserDocument, UserModel } from '@lib/db/models/user.model'
 import {
   Body,
   Controller,
+  HttpCode,
+  HttpStatus,
   InternalServerErrorException,
   Post,
   UseGuards,
@@ -22,10 +24,11 @@ export class AuthController {
   @Post('login')
   @ApiOperation({ summary: '登录' })
   @UseGuards(AuthGuard('local'))
+  @HttpCode(200)
   async login(
     // 不用也要加上, 数据验证
     @Body() dto: LoginDto,
-    @CurrentUser() user: UserModel,
+    @CurrentUser() user: UserDocument,
     @IpLocation() ipLocation: IpRecord,
   ): Promise<
     Omit<UserModel, 'password' | 'auth_code'> & {
@@ -33,10 +36,14 @@ export class AuthController {
       expires_in: number
     }
   > {
-    const omitted = omit(user, ['password', 'auth_code'])
-    await this.authService.updateUserLastMeta(user.id, {
-      last_login_ip: ipLocation.ip,
-    })
+    const omitted = user.serialize() as Omit<
+      UserModel,
+      'password' | 'auth_code'
+    >
+
+    user.last_login_ip = ipLocation.ip
+    user.last_login_time = new Date()
+    await user.save()
 
     return {
       token: await this.authService.signToken(user.id),

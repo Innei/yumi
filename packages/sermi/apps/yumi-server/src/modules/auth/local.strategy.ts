@@ -22,10 +22,8 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
   }
 
   async validate(username: string, password: string) {
-    const user = await this.userModel
-      .findOne({ username })
-      .select('+password')
-      .lean({ getters: true, virtuals: true })
+    const user = await this.userModel.findOne({ username }).select('+password')
+
     if (!user) {
       await sleep(3000)
       throw new ForbiddenException('用户名不正确')

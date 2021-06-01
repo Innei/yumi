@@ -1,5 +1,11 @@
 import { AutoIncrementID } from '@typegoose/auto-increment'
-import { index, modelOptions, plugin, prop } from '@typegoose/typegoose'
+import {
+  index,
+  modelOptions,
+  plugin,
+  prop,
+  DocumentType,
+} from '@typegoose/typegoose'
 import { hashSync } from 'bcrypt'
 import { BaseModel } from './base.model'
 export enum UserRole {
@@ -63,6 +69,15 @@ export class UserModel extends BaseModel {
   @prop()
   updated_at: Date | null
 
-  @prop()
+  @prop({ select: false })
   banned: boolean
+
+  serialize(options?: { omits?: string[] }): Partial<UserModel> {
+    return super.serialize({
+      ...options,
+      omits: ['password', 'auth_code', 'banned'].concat(options?.omits),
+    })
+  }
 }
+
+export type UserDocument = DocumentType<UserModel>

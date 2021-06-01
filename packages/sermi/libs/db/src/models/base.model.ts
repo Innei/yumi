@@ -4,6 +4,7 @@ import {
   mongoose,
   plugin,
   prop,
+  DocumentType,
 } from '@typegoose/typegoose'
 import { IModelOptions } from '@typegoose/typegoose/lib/types'
 import * as mongooseLeanGetter from 'mongoose-lean-getters'
@@ -16,6 +17,11 @@ import longify = require('mongoose-long')
 longify(mongoose)
 
 export type Snowflake = bigint
+
+export function serialize<T>(obj: T, options?: { omits?: string[] }): any {
+  const doc = obj as DocumentType<T>
+  return doc.toJSON(options as any)
+}
 
 const defaultSerializationOption: mongoose.DocumentToObjectOptions = {
   getters: true,
@@ -62,5 +68,9 @@ export abstract class BaseModel {
 
   public set id(value: Snowflake) {
     this._id = value
+  }
+
+  public serialize(options?: { omits?: string[] }) {
+    return serialize(this, options)
   }
 }

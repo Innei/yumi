@@ -75,7 +75,7 @@ describe('AuthController', () => {
       expect(e).toBeInstanceOf(UnprocessableEntityException)
     }
   })
-
+  let time
   it('login with register user', async () => {
     const data = pick(model, ['username', 'password'])
 
@@ -87,6 +87,7 @@ describe('AuthController', () => {
       .expect((res) => {
         try {
           const { username, email, token, auth_code, password } = res.body
+          time = +new Date()
           return (
             isDefined(token) &&
             username === model.email &&
@@ -98,7 +99,28 @@ describe('AuthController', () => {
           return false
         }
       })
-      .expect(201)
+      .expect(200)
+  })
+
+  it('login with register user again, check last_time', async () => {
+    const data = pick(model, ['username', 'password'])
+
+    return request(app.getHttpServer())
+      .post(route + '/login')
+      .send(data)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .expect((res) => {
+        try {
+          const { last_login_time } = res.body
+          // console.log(Math.abs(+new Date(last_login_time) - +time))
+
+          return Math.abs(+new Date(last_login_time) - +time) <= 8000
+        } catch {
+          return false
+        }
+      })
+      .expect(200)
   })
 
   afterAll(async () => {
