@@ -2,7 +2,6 @@
 const execa = require('execa')
 const fs = require('fs')
 const chalk = require('chalk')
-const { execSync } = require('child_process')
 const { resolve } = require('path')
 const targets = (exports.targets = fs.readdirSync('packages').filter((f) => {
   if (!fs.statSync(`packages/${f}`).isDirectory()) {

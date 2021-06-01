@@ -4,14 +4,12 @@ import {
   Body,
   Controller,
   HttpCode,
-  HttpStatus,
   InternalServerErrorException,
   Post,
   UseGuards,
 } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
 import { ApiOperation } from '@nestjs/swagger'
-import { omit } from 'lodash'
 import { IpLocation, IpRecord } from '../../common/decorators/ip.decorator'
 import { CurrentUser } from '../../common/decorators/user.decorator'
 import { LoginDto, RegisterDto, VerificationDto } from './auth.dto'
