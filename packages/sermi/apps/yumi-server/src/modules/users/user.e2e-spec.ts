@@ -1,4 +1,4 @@
-import { UserModel } from '@lib/db'
+import { DbModule, UserModel } from '@lib/db'
 import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import { getModelForClass } from '@typegoose/typegoose'
@@ -28,7 +28,7 @@ describe('UserController', () => {
   ]
   beforeAll(async () => {
     const module = await Test.createTestingModule({
-      imports: [UsersModule, AuthModule],
+      imports: [UsersModule, AuthModule, DbModule],
     }).compile()
 
     app = module.createNestApplication()

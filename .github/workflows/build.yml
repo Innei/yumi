@@ -59,3 +59,5 @@ jobs:
       - run: yarn
       - run: yarn build
       - run: yarn lint
+        env:
+          CI: true
