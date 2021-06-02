@@ -9,6 +9,8 @@ module.exports = {
   moduleNameMapper: {
     '@lib/db/(.*)': '<rootDir>/libs/db/src/$1',
     '@lib/db': '<rootDir>/libs/db/src',
+    '@lib/utils/(.*)': '<rootDir>/libs/utils/src/$1',
+    '@lib/utils': '<rootDir>/libs/utils/src',
     '@app/server/(.*)': '<rootDir>/apps/yumi-server/src/$1',
     '@app/server': '<rootDir>/apps/yumi-server/src',
     configs: '<rootDir>/configs.ts',

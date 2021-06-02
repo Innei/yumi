@@ -2,13 +2,12 @@ import {
   GuestPass,
   NeedAuth,
 } from '@app/server/common/decorators/auth.decorator'
-import { HttpProcessor } from '@app/server/common/decorators/http.decorator'
 import { CurrentUser } from '@app/server/common/decorators/user.decorator'
 import { snowflake } from '@app/server/utils'
 import { UserDocument } from '@lib/db/models/user.model'
-import { Controller, Get, Param } from '@nestjs/common'
+import { Controller, Get, Param, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
-import { IdDto } from './user.dto'
+import { ByQueryDto, IdDto } from './user.dto'
 import { UsersService } from './users.service'
 
 @Controller('users')
@@ -32,5 +31,12 @@ export class UsersController {
       return user.serialize()
     }
     return (await this.userService.getUserById(id)).serializeForUser()
+  }
+
+  @Get('by')
+  @GuestPass()
+  async by(@Query() query: ByQueryDto) {
+    // TODO
+    return query
   }
 }
