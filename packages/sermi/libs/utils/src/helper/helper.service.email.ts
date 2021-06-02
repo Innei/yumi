@@ -5,9 +5,10 @@
  * @author Surmon <https://github.com/surmon-china>
  * @author Innei
  */
-import { createTransport } from 'nodemailer'
+import { createTransport, SendMailOptions } from 'nodemailer'
 import { Injectable, Logger } from '@nestjs/common'
 import { APP } from '@app/server/app.config'
+import { __TEST__ } from '@app/server/utils'
 
 @Injectable()
 export class EmailService {
@@ -20,8 +21,8 @@ export class EmailService {
     this.transporter = createTransport({
       // @ts-ignore
       secure: true,
-      host: 'smtp.innei.ren',
-      port: 465,
+      host: APP.email.host || 'smtp.innei.ren',
+      port: APP.email.port || 465,
       auth: {
         user: APP.email.account,
         pass: APP.email.password,
@@ -30,7 +31,9 @@ export class EmailService {
         rejectUnauthorized: false,
       },
     })
-
+    if (__TEST__) {
+      return
+    }
     this.verifyClient()
   }
 
@@ -51,4 +54,20 @@ export class EmailService {
   }
 
   //TODO send
+  public sendMail(mailOptions: SendMailOptions) {
+    if (!this.clientIsValid) {
+      console.warn('由于未初始化成功，邮件客户端发送被拒绝！')
+      return false
+    }
+    const options = Object.assign(mailOptions, { from: APP.email.from })
+    this.transporter.sendMail(options, (error, info: any) => {
+      if (error) {
+        this.logger.warn('邮件发送失败！' + error?.message)
+      } else {
+        this.logger.debug(
+          '邮件发送成功' + ' ' + info.messageId + ' ' + info.response,
+        )
+      }
+    })
+  }
 }

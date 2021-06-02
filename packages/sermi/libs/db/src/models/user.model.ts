@@ -43,7 +43,7 @@ export class UserModel extends BaseModel {
   password: string
   @prop()
   email: string
-  @prop()
+  @prop({ default: false })
   email_verified: boolean
   @prop()
   avatar?: string
@@ -63,14 +63,19 @@ export class UserModel extends BaseModel {
   @prop({ select: false })
   last_login_ip?: string
 
-  @prop()
+  @prop({ default: () => new Date() })
   created_at: Date
 
   @prop()
   updated_at: Date | null
 
-  @prop({ select: false })
+  @prop({ select: false, default: false })
   banned: boolean
+  /**
+   * 账户保护
+   */
+  @prop({ default: false })
+  protected!: boolean
 
   serialize(options?: { omits?: string[] }): Partial<UserModel> {
     return super.serialize({

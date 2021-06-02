@@ -21,5 +21,7 @@ export const appConfig = {
       argv.email_password || parsed.EMAIL_PASSWORD || 'your email password',
     from: '"yumi" <no-reply@innei.ren>',
     admin: 'i@innei.ren',
+    host: 'smtp.innei.ren',
+    port: 465,
   },
 }

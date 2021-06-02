@@ -1,13 +1,11 @@
+import { randomString, snowflake } from '@app/server/utils'
+import { Snowflake } from '@lib/db/models/base.model'
+import { UserModel, UserRole } from '@lib/db/models/user.model'
 import { Injectable, UnprocessableEntityException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { ReturnModelType } from '@typegoose/typegoose'
-import { UserModel, UserRole } from '@lib/db/models/user.model'
 import { InjectModel } from 'nestjs-typegoose'
 import { JwtPayload } from './jwt-payload.interface'
-import { RegisterDto } from './auth.dto'
-import { randomString, snowflake } from '@app/server/utils'
-import { Snowflake } from '@lib/db/models/base.model'
-import { ITokenResult } from './auth.interface'
 
 @Injectable()
 export class AuthService {
@@ -56,6 +54,7 @@ export class AuthService {
       email_verified: false,
       role: UserRole.User,
       updated_at: null,
+      protected: false,
     })
   }
 

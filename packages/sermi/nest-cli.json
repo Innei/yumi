@@ -15,7 +15,8 @@
         }
       }
     ],
-    "tsConfigPath": "apps/yumi-server/tsconfig.app.json"
+    "tsConfigPath": "apps/yumi-server/tsconfig.app.json",
+    "webpack": true
   },
   "monorepo": true,
   "root": "apps/yumi-server",
@@ -36,6 +37,15 @@
       "sourceRoot": "libs/db/src",
       "compilerOptions": {
         "tsConfigPath": "libs/db/tsconfig.lib.json"
+      }
+    },
+    "utils": {
+      "type": "library",
+      "root": "libs/utils",
+      "entryFile": "index",
+      "sourceRoot": "libs/utils/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/utils/tsconfig.lib.json"
       }
     }
   }

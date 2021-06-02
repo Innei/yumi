@@ -21,7 +21,7 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(
     new LoggingInterceptor(),
-    new ErrorInterceptor(new Reflector()),
+    // new ErrorInterceptor(new Reflector()),
   )
 
   if (__DEV__) {

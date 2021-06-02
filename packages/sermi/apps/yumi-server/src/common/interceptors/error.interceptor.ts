@@ -34,6 +34,7 @@ export class ErrorInterceptor implements NestInterceptor {
   ): Observable<any> {
     const call$ = next.handle()
     const target = context.getHandler()
+
     const statusCode = this.reflector.get<HttpStatus>(
       META.HTTP_ERROR_CODE,
       target,

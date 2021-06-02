@@ -34,8 +34,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
           HttpStatus.INTERNAL_SERVER_ERROR
 
     const message =
-      (exception as any)?.response?.message ||
-      (exception as any)?.message ||
+      (exception as any)?.response?.message?.toString() ||
+      (exception as any)?.message?.toString() ||
       '未知错误'
     if (__DEV__) {
       console.error(exception)

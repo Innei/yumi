@@ -1,3 +1,4 @@
+import { randomStringUnSafeSync } from '@app/server/utils'
 import { DbModule } from '@lib/db'
 import { UserModel } from '@lib/db/models/user.model'
 import { INestApplication, UnprocessableEntityException } from '@nestjs/common'
@@ -32,7 +33,7 @@ describe('AuthController', () => {
   })
 
   const model = {
-    username: 'test-1',
+    username: 'test-' + randomStringUnSafeSync(2),
     password: '1'.repeat(6),
     email: 'tu@qq.com',
     // TODO code

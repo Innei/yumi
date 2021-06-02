@@ -25,6 +25,12 @@
       ],
       "@app/server": [
         "apps/yumi-server/src"
+      ],
+      "@lib/utils": [
+        "libs/utils/src"
+      ],
+      "@lib/utils/*": [
+        "libs/utils/src/*"
       ]
     }
   }
