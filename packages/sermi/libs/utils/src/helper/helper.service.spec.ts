@@ -3,13 +3,17 @@ import { EmailService } from './helper.service.email'
 
 describe('HelperService', () => {
   let service: EmailService
-
+  let module: TestingModule
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    module = await Test.createTestingModule({
       providers: [EmailService],
     }).compile()
 
     service = module.get<EmailService>(EmailService)
+  })
+
+  afterAll(async () => {
+    await module.close()
   })
 
   it('should be defined', () => {

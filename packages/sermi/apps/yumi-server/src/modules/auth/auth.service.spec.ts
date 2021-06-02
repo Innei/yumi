@@ -4,13 +4,17 @@ import { AuthService } from './auth.service'
 // import {DbModule} from '@lib/db'
 describe('AuthService', () => {
   let service: AuthService
-
+  let module: TestingModule
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    module = await Test.createTestingModule({
       imports: [AuthModule],
     }).compile()
 
     service = module.get<AuthService>(AuthService)
+  })
+
+  afterAll(async () => {
+    await module.close()
   })
 
   it('service should be defined', () => {
