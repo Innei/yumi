@@ -15,8 +15,7 @@
         }
       }
     ],
-    "tsConfigPath": "apps/yumi-server/tsconfig.app.json",
-    "webpack": true
+    "tsConfigPath": "apps/yumi-server/tsconfig.app.json"
   },
   "monorepo": true,
   "root": "apps/yumi-server",

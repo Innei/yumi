@@ -14,8 +14,15 @@ const targets = (exports.targets = fs.readdirSync('packages').filter((f) => {
   return true
 }))
 
+/**
+ *
+ * @param {string[]} targets
+ */
 async function buildAll(targets) {
-  await runParallel(require('os').cpus().length, targets, build)
+  // await runParallel(require('os').cpus().length, targets, build)
+  for await (const target of targets) {
+    await build(target)
+  }
 }
 
 async function build(target) {
@@ -25,6 +32,14 @@ async function build(target) {
   if (pkg.scripts.test) {
     console.log(chalk.green('start to test ' + target + '...'))
     await execa('yarn', ['workspace', pkg.name, 'test'], {
+      cwd: dir,
+      encoding: 'utf8',
+      stdio: 'inherit',
+    })
+  }
+  if (pkg.scripts['test:e2e']) {
+    console.log(chalk.green('start to test:e2e ' + target + '...'))
+    await execa('yarn', ['workspace', pkg.name, 'test:e2e'], {
       cwd: dir,
       encoding: 'utf8',
       stdio: 'inherit',

@@ -5,7 +5,7 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
   base: '',
-  plugins: [reactRefresh(), visualizer({ open: true }), tsconfigPaths()],
+  plugins: [reactRefresh(), visualizer({ open: false }), tsconfigPaths()],
   esbuild: {
     jsxInject: 'import React from "react"\n',
   },
