@@ -88,11 +88,12 @@ async function runParallel(maxConcurrency, source, iteratorFn) {
 }
 
 async function run() {
-  try {
-    await buildAll(targets)
-  } catch (e) {
-    process.exit(-1)
-  }
+  await buildAll(targets)
+  // try {
+  //   await buildAll(targets)
+  // } catch (e) {
+  //   process.exit(-1)
+  // }
 }
 
 run()

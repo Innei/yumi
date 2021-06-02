@@ -10,7 +10,7 @@ import * as request from 'supertest'
 import { AuthController } from './auth.controller'
 import { AuthModule } from './auth.module'
 import { AuthService } from './auth.service'
-
+import { mongoose } from '@typegoose/typegoose'
 describe('AuthController', () => {
   const route = '/auth'
 
@@ -126,6 +126,10 @@ describe('AuthController', () => {
 
   afterAll(async () => {
     await userModel.deleteMany({})
+    console.log('-------disconnect mongoose-----------')
+    await mongoose.disconnect()
+    console.log('-------close server-----------')
     await app.close()
+    console.log('----------end------------')
   })
 })
