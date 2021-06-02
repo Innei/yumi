@@ -1,23 +1,13 @@
 import { UserModel } from '@lib/db'
 import { Snowflake } from '@lib/db/models/base.model'
 import {
-  IsEmail,
-  IsIn,
-  IsInt,
-  IsNotEmpty,
-  IsString,
-  IsUrl,
-  MaxLength,
-  Min,
-  MinLength,
-} from 'class-validator'
-import {
   IsSnowflake,
   TransformToBigInt,
 } from '@lib/utils/shared/validator-decorators/isSnowflake'
-import { PickType, PartialType } from '@nestjs/mapped-types'
-import { Transform } from 'class-transformer'
+import { IsValidPassword } from '@lib/utils/shared/validator-decorators/isValidPassword'
+import { PartialType, PickType } from '@nestjs/mapped-types'
 import { ApiProperty } from '@nestjs/swagger'
+import { IsInt, IsNotEmpty, IsString, Min } from 'class-validator'
 export class ByParamsDto {
   @IsString({ message: 'username defined ?' })
   @IsNotEmpty({ message: 'username ?' })
@@ -33,5 +23,14 @@ export class ByParamsDto {
   id: Snowflake
 }
 
+export class ResetPasswordDto {
+  @IsValidPassword()
+  new_password: string
+  @IsValidPassword()
+  old_password: string
+}
+
 export class IdDto extends PickType(ByParamsDto, ['id'] as const) {}
 export class ByQueryDto extends PartialType(ByParamsDto) {}
+
+export class PartialUserDto extends PartialType(UserModel) {}

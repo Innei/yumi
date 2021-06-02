@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": ".",
+			"name": "root"
+		},
+		{
+			"path": "packages/sermi",
+			"name": "server"
+		}
+	],
+	"settings": {}
+}

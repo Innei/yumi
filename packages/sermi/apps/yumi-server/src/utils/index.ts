@@ -23,7 +23,7 @@ export const getIp = (request: FastifyRequest | IncomingMessage) => {
   return ip
 }
 
-export const randomString = async (len = 6) => {
+export const randomStringSafe = async (len = 6) => {
   const random = promisify(randomBytes)
   const buffer = await random(48)
   return buffer.toString('hex').slice(0, len)

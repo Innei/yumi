@@ -1,3 +1,4 @@
+import { IsValidPassword } from '@lib/utils/shared/validator-decorators/isValidPassword'
 import { AutoIncrementID } from '@typegoose/auto-increment'
 import {
   index,
@@ -7,6 +8,15 @@ import {
   DocumentType,
 } from '@typegoose/typegoose'
 import { hashSync } from 'bcrypt'
+import {
+  IsBoolean,
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsString,
+  IsUrl,
+  MinLength,
+} from 'class-validator'
 import { BaseModel } from './base.model'
 export enum UserRole {
   User,
@@ -27,6 +37,8 @@ export class UserModel extends BaseModel {
   @prop({ required: true, unique: true, maxlength: 20 })
   username: string
   @prop()
+  @IsString()
+  @IsNotEmpty()
   name?: string
 
   @prop({
@@ -40,18 +52,25 @@ export class UserModel extends BaseModel {
       return hashSync(v, 6)
     },
   })
+  @IsString()
+  @IsValidPassword()
   password: string
   @prop()
+  @IsEmail()
   email: string
   @prop({ default: false })
   email_verified: boolean
   @prop()
   avatar?: string
+  @IsUrl()
   @prop()
   banner?: string
   @prop()
+  @IsString()
+  @IsNotEmpty()
   introduce?: string
   @prop({ default: UserRole.User })
+  @IsEnum(UserRole)
   role: UserRole
 
   @prop({ select: false, required: true })
@@ -70,11 +89,13 @@ export class UserModel extends BaseModel {
   updated_at: Date | null
 
   @prop({ select: false, default: false })
+  @IsBoolean()
   banned: boolean
   /**
    * 账户保护
    */
   @prop({ default: false })
+  @IsBoolean()
   protected!: boolean
 
   serialize(options?: { omits?: string[] }): Partial<UserModel> {
@@ -83,6 +104,17 @@ export class UserModel extends BaseModel {
       omits: ['password', 'auth_code', 'banned'].concat(options?.omits),
     })
   }
+
+  /**
+   * 用户能直接修改的字段
+   */
+  static normalizeField: Partial<keyof UserModel>[] = [
+    'name',
+    'introduce',
+    'avatar',
+    'banner',
+    'protected',
+  ]
 
   serializeForUser(): any {
     return super.serialize({

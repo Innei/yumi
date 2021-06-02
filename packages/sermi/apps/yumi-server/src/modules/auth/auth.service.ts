@@ -1,4 +1,4 @@
-import { randomString, snowflake } from '@app/server/utils'
+import { randomStringSafe, snowflake } from '@app/server/utils'
 import { Snowflake } from '@lib/db/models/base.model'
 import { UserModel, UserRole } from '@lib/db/models/user.model'
 import { Injectable, UnprocessableEntityException } from '@nestjs/common'
@@ -44,7 +44,7 @@ export class AuthService {
     if (exist) {
       throw new UnprocessableEntityException('用户已存在!')
     }
-    const auth_code = await randomString(6)
+    const auth_code = await randomStringSafe(6)
     return await this.userModel.create({
       _id: snowflake.gen(),
       ...model,
