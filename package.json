@@ -8,7 +8,8 @@
     "build": "node scripts/build",
     "test": "node scripts/test",
     "lint": "eslint --ext .ts,.tsx packages/*/src/** --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "precommit": "lint-staged"
   },
   "author": "Innei",
   "license": "MIT",
