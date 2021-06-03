@@ -16,7 +16,7 @@ import {
   Query,
 } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
-import { omit, pick } from 'lodash'
+import { pick } from 'lodash'
 import { ByQueryDto, IdDto, PartialUserDto, ResetPasswordDto } from './user.dto'
 import { UsersService } from './users.service'
 
@@ -76,5 +76,12 @@ export class UsersController {
       body.new_password,
       body.old_password,
     )
+  }
+
+  @Post('change-email')
+  @NeedAuth(true)
+  async changeEmail() {
+    // TODO
+    return 'OK'
   }
 }
