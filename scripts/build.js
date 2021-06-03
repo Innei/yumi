@@ -1,50 +1,14 @@
 // @ts-check
 const execa = require('execa')
-const fs = require('fs')
 const chalk = require('chalk')
 const { resolve } = require('path')
-const targets = (exports.targets = fs.readdirSync('packages').filter((f) => {
-  if (!fs.statSync(`packages/${f}`).isDirectory()) {
-    return false
-  }
-  const pkg = require(`../packages/${f}/package.json`)
-  if (pkg.private && !pkg.scripts.build) {
-    return false
-  }
-  return true
-}))
 
-/**
- *
- * @param {string[]} targets
- */
-async function buildAll(targets) {
-  // await runParallel(require('os').cpus().length, targets, build)
-  for await (const target of targets) {
-    await build(target)
-  }
-}
+const { buildAll, targets } = require('./utils')
 
 async function build(target) {
   const dir = resolve(__dirname, '..', 'packages', target)
 
   const pkg = require(resolve(dir, './package.json'))
-  if (pkg.scripts.test) {
-    console.log(chalk.green('start to test ' + target + '...'))
-    await execa('yarn', ['workspace', pkg.name, 'test'], {
-      cwd: dir,
-      encoding: 'utf8',
-      stdio: 'inherit',
-    })
-  }
-  if (pkg.scripts['test:e2e']) {
-    console.log(chalk.green('start to test:e2e ' + target + '...'))
-    await execa('yarn', ['workspace', pkg.name, 'test:e2e'], {
-      cwd: dir,
-      encoding: 'utf8',
-      stdio: 'inherit',
-    })
-  }
 
   console.log(chalk.green('start to build ' + target + '...'))
   try {
@@ -58,42 +22,8 @@ async function build(target) {
   }
 }
 
-/**
- *
- * @param {any} maxConcurrency
- * @param {any} source
- * @param {typeof build} iteratorFn
- * @returns
- */
-async function runParallel(maxConcurrency, source, iteratorFn) {
-  const ret = []
-  const executing = []
-  for (const item of source) {
-    const p = Promise.resolve().then(() =>
-      iteratorFn(item).catch((err) => {
-        throw err
-      }),
-    )
-    ret.push(p)
-
-    if (maxConcurrency <= source.length) {
-      const e = p.then(() => executing.splice(executing.indexOf(e), 1))
-      executing.push(e)
-      if (executing.length >= maxConcurrency) {
-        await Promise.race(executing)
-      }
-    }
-  }
-  return Promise.all(ret)
-}
-
 async function run() {
-  await buildAll(targets)
-  // try {
-  //   await buildAll(targets)
-  // } catch (e) {
-  //   process.exit(-1)
-  // }
+  await buildAll(targets, build)
 }
 
 run()

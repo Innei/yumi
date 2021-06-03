@@ -10,30 +10,9 @@ on:
     branches: [master]
 
 jobs:
-  # setup_mongo_action:
-  #   runs-on: ubuntu-latest
-  #   name: mongo
-  #   steps:
-  #     - name: Create mongo Docker container
-  #       id: build_mongo_docker
-  #       uses: DigiPie/mongo-action@v1.0.1
-  #       with:
-  #         image-version: latest
-  #         port: 27017
-
-  # setup_redis_action:
-  #   runs-on: ubuntu-latest
-  #   name: redis
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: shogo82148/actions-setup-redis@v1
-  #       with:
-  #         redis-version: '6.x'
-
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    # needs: [setup_redis_action, setup_mongo_action]
     strategy:
       matrix:
         node-version: [14.x]
@@ -58,6 +37,7 @@ jobs:
       - run: redis-cli ping
       - run: yarn
       - run: yarn build
+      - run: yarn test
       - run: yarn lint
         env:
           CI: true

@@ -6,6 +6,7 @@
   "scripts": {
     "format": "prettier --write \"packages/**/*.{ts,tsx}\" ",
     "build": "node scripts/build",
+    "test": "node scripts/test",
     "lint": "eslint --ext .ts,.tsx packages/*/src/** --fix",
     "prepare": "husky install"
   },
