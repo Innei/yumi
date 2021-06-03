@@ -6,8 +6,8 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "nest build && ncc build dist/apps/yumi-server/apps/yumi-server/src/main.js -o out && get-folder-size --folder=out",
+    "prebuild": "rimraf dist && rimraf out",
+    "build": "nest build && ncc build dist/apps/yumi-server/apps/yumi-server/src/main.js -o out --no-source-map-register -m && get-folder-size --folder=out",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "cross-env NODE_ENV=development nest start -w ",
     "start:debug": "cross-env NODE_ENV=development nest start --debug --watch",

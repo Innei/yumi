@@ -36,7 +36,7 @@ jobs:
 
       - run: redis-cli ping
       - run: yarn
-      - run: yarn add -D @zeit/ncc get-folder-size
+      - run: yarn add -D @zeit/ncc get-folder-size -W
       - run: yarn lint
       - run: yarn test
       - run: yarn build
