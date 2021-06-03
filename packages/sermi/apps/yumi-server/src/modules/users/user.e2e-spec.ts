@@ -123,14 +123,14 @@ describe('UserController', () => {
     })
   })
 
-  describe('POST /forget, reset password', () => {
+  describe('POST /reset, reset password', () => {
     it('should reset password successfully', async () => {
       const agent = supertest.agent(app.getHttpServer())
 
       // 1. reset password
       const new_password = '654321'
       await agent
-        .post(route + '/forgot')
+        .post(route + '/reset')
         .set('Authorization', 'Bearer ' + testingUsers[0].token)
         .send({
           old_password: testingUsers[0].password,
@@ -174,7 +174,7 @@ describe('UserController', () => {
 
       const new_password = '654321'
       await agent
-        .post(route + '/forgot')
+        .post(route + '/reset')
         .set('Authorization', 'Bearer ' + testingUsers[0].token)
         .send({
           old_password: 'a',

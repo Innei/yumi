@@ -64,7 +64,7 @@ export class UsersController {
     return
   }
 
-  @Post('forgot')
+  @Post('reset')
   @NeedAuth(true)
   @HttpCode(204)
   async resetPassword(
@@ -76,6 +76,13 @@ export class UsersController {
       body.new_password,
       body.old_password,
     )
+  }
+
+  @Get('forgot')
+  @NeedAuth(true)
+  async forgotPassword() {
+    // TODO
+    return 'OK'
   }
 
   @Post('change-email')
