@@ -17,6 +17,7 @@ const CacheModuleDynamic = CacheModule.registerAsync({
 @Module({
   imports: [CacheModuleDynamic],
   providers: [EmailService, RedisService],
+  exports: [CacheModuleDynamic],
 })
 @Global()
 export class HelperModule {}

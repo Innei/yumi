@@ -20,3 +20,5 @@ export const HTTP_RES_TRANSFORM_PAGINATE = '__customHttpResTransformPagenate__'
 
 export const HTTP_CACHE_KEY_METADATA = CACHE_KEY_METADATA
 export const HTTP_CACHE_TTL_METADATA = '__customHttpCacheTTL__'
+
+export const HTTP_CACHE_KEY_PREFIX = 'yumi_cache:'
