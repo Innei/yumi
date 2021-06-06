@@ -1,11 +1,12 @@
 import { IsValidPassword } from '@lib/utils/shared/validator-decorators/isValidPassword'
 import { AutoIncrementID } from '@typegoose/auto-increment'
 import {
+  DocumentType,
   index,
   modelOptions,
   plugin,
   prop,
-  DocumentType,
+  ReturnModelType,
 } from '@typegoose/typegoose'
 import { hashSync } from 'bcrypt'
 import {
@@ -15,7 +16,6 @@ import {
   IsNotEmpty,
   IsString,
   IsUrl,
-  MinLength,
 } from 'class-validator'
 import { BaseModel } from './base.model'
 export enum UserRole {
@@ -31,7 +31,7 @@ export enum UserRole {
   options: { customName: 'User' },
 })
 @index([{ uid: 1 }])
-export class UserModel extends BaseModel {
+export class UserModel extends BaseModel.withTime {
   @prop({ unique: true })
   uid?: number
   @prop({ required: true, unique: true, maxlength: 20 })
@@ -82,12 +82,6 @@ export class UserModel extends BaseModel {
   @prop({ select: false })
   last_login_ip?: string
 
-  @prop({ default: () => new Date() })
-  created_at: Date
-
-  @prop()
-  updated_at: Date | null
-
   @prop({ select: false, default: false })
   @IsBoolean()
   banned: boolean
@@ -133,3 +127,5 @@ export class UserModel extends BaseModel {
 }
 
 export type UserDocument = DocumentType<UserModel>
+
+export type UserModelType = ReturnModelType<typeof UserModel>

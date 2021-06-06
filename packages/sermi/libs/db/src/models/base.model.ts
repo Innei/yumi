@@ -54,7 +54,7 @@ export const defaultModelOptions: IModelOptions = {
 @plugin(mongooseLeanGetter)
 @modelOptions(defaultModelOptions)
 @index({ created: -1 })
-export abstract class BaseModel {
+abstract class Base {
   @prop({
     type: mongoose.mongo.Long,
     required: true,
@@ -74,3 +74,16 @@ export abstract class BaseModel {
     return serialize(this, options)
   }
 }
+
+abstract class BaseWithTimeField extends Base {
+  @prop({ default: () => new Date() })
+  created_at: Date
+
+  @prop()
+  updated_at: Date | null
+}
+
+export const BaseModel = Object.freeze({
+  default: Base,
+  withTime: BaseWithTimeField,
+})

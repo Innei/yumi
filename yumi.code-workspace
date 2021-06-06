@@ -9,5 +9,42 @@
 			"name": "server"
 		}
 	],
-	"settings": {}
+	"settings": {
+		// 头部注释
+		"fileheader.customMade": {
+			// 头部注释默认字段
+			"author": "Innei",
+		},
+		// 插件配置项
+		"fileheader.configObj": {
+			"prohibitAutoAdd": [
+				"json"
+			],
+			"folderBlacklist": [
+				"node_modules"
+			], // 文件夹或文件名禁止自动添加头部注释
+			// 自定义语言注释符号，覆盖插件的注释格式
+			"language": {
+				// js后缀文件
+				"ts": {
+					"head": "/**",
+					"middle": " * @",
+					"end": " */",
+				},
+				// js后缀文件
+				"js": {
+					"head": "/**",
+					"middle": " * @",
+					"end": " */",
+				},
+			},
+			// 默认注释  没有匹配到注释符号的时候使用。
+			"annotationStr": {
+				"head": "/**",
+				"middle": " * @",
+				"end": " */",
+				"use": false
+			},
+		}
+	}
 }
