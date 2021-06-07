@@ -1,3 +1,4 @@
+import { randomStringUnSafeSync } from '@app/server/utils'
 import { DbModule, UserModel } from '@lib/db'
 import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
@@ -6,8 +7,6 @@ import * as supertest from 'supertest'
 import { AuthModule } from '../auth/auth.module'
 import { AuthService } from '../auth/auth.service'
 import { UsersModule } from './users.module'
-import { mongoose } from '@typegoose/typegoose'
-import { randomStringUnSafeSync } from '@app/server/utils'
 describe('UserController', () => {
   const route = '/users'
   let app: INestApplication
@@ -52,11 +51,8 @@ describe('UserController', () => {
     await getModelForClass(UserModel).deleteMany({
       username: { $in: testingUsers.map((i) => i.username) },
     })
-    console.log('-------disconnect mongoose-----------')
-    await mongoose.disconnect()
-    console.log('-------close server-----------')
+
     await app.close()
-    console.log('----------end------------')
   })
 
   describe('GET /user', () => {
@@ -117,7 +113,7 @@ describe('UserController', () => {
         .expect(200)
         .expect((res) => {
           const body = res.body
-          console.log(body)
+
           return body.name === moName && body.email === testingUsers[0].email
         })
     })

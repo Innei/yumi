@@ -1,10 +1,12 @@
 import {
   index,
   modelOptions,
+  mongoose,
   prop,
   Ref,
   ReturnModelType,
 } from '@typegoose/typegoose'
+import { transformer } from '../utils'
 import { BaseModel, Snowflake } from './base.model'
 import { UserModel } from './user.model'
 
@@ -43,7 +45,7 @@ export class CircleModel extends BaseModel.withTime {
   private: boolean
 
   // TODO
-  @prop()
+  @prop({ ...transformer.nullableSnowflakes, type: mongoose.mongo.Long })
   administrators: Snowflake[]
   serialize(options?: { omits?: string[] }) {
     return super.serialize({

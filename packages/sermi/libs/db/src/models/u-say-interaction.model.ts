@@ -1,4 +1,10 @@
-import { modelOptions, prop, ReturnModelType } from '@typegoose/typegoose'
+import {
+  index,
+  modelOptions,
+  prop,
+  ReturnModelType,
+} from '@typegoose/typegoose'
+import { transformer } from '../utils'
 import { BaseModel, Snowflake } from './base.model'
 
 export enum ActionType {
@@ -9,18 +15,20 @@ export enum ActionType {
 
 @modelOptions({
   options: { customName: 'u_say_interaction' },
+  schemaOptions: { _id: false },
 })
-export class USayInteractionModel extends BaseModel.default {
-  @prop()
+@index([{ say_id: 1 }])
+export class USayInteractionModel {
+  @prop({ ...transformer.nullableSnowflake })
   circle_id?: Snowflake
 
-  @prop()
+  @prop({ ...transformer.nullableSnowflake })
   say_id: Snowflake
 
   @prop()
   action: ActionType
 
-  @prop()
+  @prop({ ...transformer.nullableSnowflake })
   uid: Snowflake
   /**
    * 操作的时间

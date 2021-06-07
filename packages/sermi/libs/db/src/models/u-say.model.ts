@@ -5,7 +5,8 @@ import {
   Ref,
   ReturnModelType,
 } from '@typegoose/typegoose'
-import { BaseModel } from './base.model'
+import { transformer } from '../utils'
+import { BaseModel, Snowflake } from './base.model'
 import { CircleModel } from './circle.model'
 import { UserModel } from './user.model'
 
@@ -14,8 +15,12 @@ import { UserModel } from './user.model'
 })
 @index([{ created_at: 1 }])
 export class USayModel extends BaseModel.withTime {
-  @prop({ ref: () => UserModel, required: true })
-  uid: Ref<UserModel>
+  @prop({
+    ref: () => UserModel,
+    required: true,
+    ...transformer.nullableSnowflake,
+  })
+  uid: Snowflake
   // TODO 这里暂时不验证长度
   @prop()
   status?: string
@@ -28,6 +33,7 @@ export class USayModel extends BaseModel.withTime {
 
   @prop({
     ref: () => CircleModel,
+    ...transformer.nullableSnowflake,
   })
   circle_id?: Ref<CircleModel>
   @prop({
@@ -36,17 +42,18 @@ export class USayModel extends BaseModel.withTime {
     localField: 'circle_id',
     foreignField: '_id',
   })
-  circle: CircleModel
+  circle?: CircleModel
 
   @prop({
     ref: () => UserModel,
     foreignField: '_id',
     localField: 'uid',
     justOne: true,
+    ...transformer.nullableSnowflake,
   })
   user?: UserModel
-  @prop()
-  media: string[]
+  @prop({ default: () => [] })
+  media?: string[]
 }
 
 export type USayModelType = ReturnModelType<typeof USayModel>

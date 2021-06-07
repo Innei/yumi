@@ -16,7 +16,7 @@ import longify = require('mongoose-long')
 // @ts-ignore
 longify(mongoose)
 
-export type Snowflake = bigint
+export type Snowflake = string
 
 export function serialize<T>(obj: T, options?: { omits?: string[] }): any {
   const doc = obj as DocumentType<T>

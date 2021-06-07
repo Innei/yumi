@@ -8,10 +8,12 @@ const uid = new UniqueID({
 
 export const snowflake = {
   gen() {
-    return uid.getUniqueID() as bigint
+    return uid.getUniqueID().toString() as string
   },
   async genAsync() {
-    return uid.asyncGetUniqueID() as Promise<bigint>
+    return (
+      await uid.asyncGetUniqueID()
+    ).toString() as unknown as Promise<string>
   },
   compare(i1, i2) {
     if (isNil(i1) || isNil(i2)) {
